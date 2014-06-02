@@ -48,7 +48,7 @@ function formatDuration(duration){
 function callback(err, results){
   var duration;
   if(err){
-    console.log('Error:'.red, err.type, err.message);
+    console.log('Error:'.red, err.name, err.message);
     process.exit(1);
   }
   if(results === true){
