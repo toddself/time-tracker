@@ -1,0 +1,4 @@
+usage: tt [start|stop|status|report] [PROJECT]
+
+  Records times spent on projects. [PROJECT] defaults to the current directory.
+

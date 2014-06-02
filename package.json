@@ -1,0 +1,39 @@
+{
+  "name": "time-tracker",
+  "version": "0.0.0",
+  "description": "Track time spent on projets from the command line",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test/*js"
+  },
+  "bin": {
+    "tt": "bin/tt.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/toddself/time-tracker"
+  },
+  "keywords": [
+    "time",
+    "tracker",
+    "freelance",
+    "contract",
+    "time",
+    "tracker"
+  ],
+  "preferGlobal": true,
+  "author": "Todd Kennedy <todd@selfassembled.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/toddself/time-tracker/issues"
+  },
+  "homepage": "https://github.com/toddself/time-tracker",
+  "dependencies": {
+    "colors": "^0.6.2",
+    "level": "^0.18.0",
+    "moment": "^2.6.0"
+  },
+  "devDependencies": {
+    "tap": "^0.4.9"
+  }
+}
