@@ -6,6 +6,8 @@ var fs = require('fs');
 
 var moment = require('moment');
 var colors = require('colors');
+var minimist = require('minimist');
+var argv = require('minimist')(process.argv.slice(2));
 
 if(!process.stdout.isTTY){
   colors.setTheme({
@@ -28,10 +30,9 @@ if(!process.stdout.isTTY){
 }
 
 var tt = require('../index');
-
-var arg = process.argv[2];
-var project = process.argv[3] || process.cwd();
-
+var command = argv._[0];
+var project = argv.p || argv.project || process.cwd();
+var description = argv.m || argv.message;
 
 function formatDuration(duration){
   var dur = [];
@@ -52,7 +53,7 @@ function callback(err, results){
     process.exit(1);
   }
   if(results === true){
-    console.log(project, arg === 'stop' ? 'stopped' : 'started');
+    console.log(project, command === 'stop' ? 'stopped' : 'started');
     process.exit(0);
   }
 
@@ -72,31 +73,23 @@ function callback(err, results){
 
   if(results.active){
     duration = moment.duration(moment(new Date()).diff(moment(results.start)));
-    console.log('Active:'.green, formatDuration(duration));
+    console.log('Active:'.green, formatDuration(duration), results.description || '');
     process.exit(0);
   } else {
     duration = moment.duration(moment(results.stop).diff(moment(results.start)));
-    console.log('Stopped. Last duration:'.green, formatDuration(duration));
+    console.log('Stopped. Last duration:'.green, formatDuration(duration), results.description || '');
   }
 }
 
-switch(arg){
-  default:
-  case 'h':
-  case 'help':
-    var usage = path.join(__dirname, 'usage.txt');
-    fs.createReadStream(usage).pipe(process.stdout);
-    break;
-  case 'start':
-    tt.start(project, callback);
-    break;
-  case 'stop':
-    tt.stop(project, callback);
-    break;
-  case 'status':
-    tt.status(project, callback);
-    break;
-  case 'report':
-    tt.report(project, callback);
-    break;
+if(command === 'help' || typeof command === 'undefined' || argv.h || argv.help){
+  var usage = path.join(__dirname, 'usage.txt');
+  fs.createReadStream(usage).pipe(process.stdout);
+}
+
+if(typeof tt[command] === 'function'){
+  if(command === 'start' && typeof description !== undefined){
+    tt.start(project, description, callback);
+  } else {
+    tt[command].call(null, project, callback);
+  }
 }

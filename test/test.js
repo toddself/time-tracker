@@ -28,15 +28,31 @@ test('Starting and stopping functionality', function(t){
   });
 });
 
+test('Adding a description', function(t){
+  var prefix = Math.floor(Math.random() * (1000000 - 1 + 1)) + 1;
+  tt.start(prefix+'test', 'this is a test project', function(err, status){
+    t.ok(!err, 'No error thrown');
+    t.ok(status, 'start returned true');
+    tt.start(prefix+'test', function(err){
+      t.equal('UnstoppedError', err.name, 'Error returned trying to start a started project');
+      tt.stop(prefix+'test', function(err, status){
+        t.ok(!err, 'No error thrown');
+        t.ok(status, 'stop returned true');
+        cleanup(prefix+'test', tt, t);
+      });
+    });
+  });
+});
 
 test('Statuses', function(t){
   var prefix = Math.floor(Math.random() * (1000000 - 1 + 1)) + 1;
-  tt.start(prefix+'test', function(err, status){
+  tt.start(prefix+'test', 'test project', function(err, status){
     t.ok(!err, 'no error');
     t.ok(status, 'started');
     tt.status(prefix+'test', function(err, status){
       t.ok(!err, 'no error');
       t.ok(status.active, 'currently active');
+      t.equal('test project', status.description, 'status reported');
       t.ok(!isNaN(new Date(status.start)), 'start time is a date');
       t.equal(typeof status.stop, 'undefined', 'stop is undefined');
       tt.stop(prefix+'test', function(err, status){

@@ -1,4 +1,4 @@
-usage: tt [start|stop|status|report] [PROJECT]
+usage: tt <start|stop|status|report> -p [project name] -m [message]
 
   Records times spent on projects. [PROJECT] defaults to the current directory.
 

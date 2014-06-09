@@ -17,12 +17,17 @@ var TTErr = require('./time-tracker-error');
  * @param   {Function} cb Error or success
  * @returns {object} undefined
  */
-exports.start = function(project, cb){
+exports.start = function(project, description, cb){
   db.get(project, function(err, data){
     if(err && err.type !== 'NotFoundError'){
       return cb(err);
     }
     data = data || [];
+
+    if(typeof description === 'function'){
+      cb = description;
+      description = '';
+    }
 
     var unstopped = data.filter(function(d){
       return d && !d.stop;
@@ -32,7 +37,7 @@ exports.start = function(project, cb){
       return cb(new TTErr('UnstoppedError', 'Unstopped times exist for this project', JSON.stringify(unstopped)));
     }
 
-    var current = {start: (new Date()), stop: undefined};
+    var current = {start: (new Date()), description: description, stop: undefined};
     data.push(current);
     db.put(project, data, function(err){
       if(err){

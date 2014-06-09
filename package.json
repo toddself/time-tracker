@@ -31,6 +31,7 @@
   "dependencies": {
     "colors": "^0.6.2",
     "level": "^0.18.0",
+    "minimist": "^0.1.0",
     "moment": "^2.6.0"
   },
   "devDependencies": {
