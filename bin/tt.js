@@ -64,7 +64,7 @@ function callback(err, results){
       var date = moment(result).format('MMM DD, YYYY');
       var dur = moment.duration(moment(result.stop).diff(moment(result.start)));
       duration += dur._data.minutes;
-      console.log(date, formatDuration(dur));
+      console.log(date, formatDuration(dur), result.description || '');
     });
     console.log('Total:', duration, 'minutes');
 
