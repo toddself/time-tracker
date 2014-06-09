@@ -1,6 +1,6 @@
 {
   "name": "time-tracker",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Track time spent on projets from the command line",
   "main": "index.js",
   "scripts": {
